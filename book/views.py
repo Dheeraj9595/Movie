@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from login.models import *
 from django.contrib.auth import *
 from login.forms import *
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required(login_url = '/login/')
 
@@ -73,6 +74,8 @@ def book(request): #to store the booking data in to database...
 	ticket.save()
 	request.session['ticket_id'] = ticket.ticket_id
 	return HttpResponseRedirect('/book/ticket/')
+
+
 @login_required(login_url = '/login/')
 def ticket(request): #to display the ticket details after successfull booking...
 		c = {}
@@ -95,3 +98,23 @@ def ticket(request): #to display the ticket details after successfull booking...
 		c['cinema_name'] = cinema.cinema_name
 		return render(request,'ticket.html',c)
 	
+
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+
+@csrf_exempt
+@require_POST
+def cancel_ticket(request, ticket_id):
+    try:
+        # Get the ticket object
+        ticket = Ticket.objects.get(ticket_id=ticket_id)
+
+        # Delete the ticket
+        ticket.delete()
+
+        # Return success JSON response
+        return HttpResponseRedirect('/book/bookings/')
+
+    except Ticket.DoesNotExist:
+        # Return error JSON response
+        return JsonResponse({'error': 'Ticket does not exist.'}, status=404)

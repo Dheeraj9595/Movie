@@ -55,6 +55,10 @@
 					</div>
 					<div class="card-action">
 						<a class="waves-effect waves-light btn" href="#">Print</a>
+						<form action="{% url 'cancel_ticket' ticket_id=i.ticket_id %}" method="post">
+							{% csrf_token %}
+							<button type="submit" class="waves-effect waves-light btn red">Cancel Ticket</button>
+						</form>
 					</div>
 				</div>
 			</div>

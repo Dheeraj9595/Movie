@@ -165,7 +165,7 @@ def movie(request):
     movie = Movie.objects.filter(movie_id=int(key))
     cid = request.session['cinema_id']
     offer = Offers.objects.filter(cinema_id=cid)
-    show = Show.objects.all()
+    show = Show.objects.filter(cinema_id = cid,movie_id = int(key))
     c['offer'] = offer
     c['show'] = show
     c['movie_name'] = movie[0].movie_name

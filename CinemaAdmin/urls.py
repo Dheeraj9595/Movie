@@ -12,5 +12,7 @@ urlpatterns = [
     path('addNewOffer/',views.addNewOffer),
     path('add2/',views.add2),
     path('addNewShow/',views.addNewShow),
-    path('add3/',views.add3)
+    path('add3/',views.add3),
+    path('delete_movie/<str:movie_name>/', views.delete_movie)
+
     ]

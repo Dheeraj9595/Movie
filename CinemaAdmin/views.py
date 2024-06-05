@@ -9,7 +9,9 @@ from login.models import *
 from django.contrib.auth import *
 from login.forms import *
 from django.contrib.auth.forms import PasswordChangeForm
-
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 @login_required(login_url = '/login/')
 
 def home(request): #home admin panel for cinema admin...
@@ -154,18 +156,20 @@ def add(request): #view for adding movie details in to the database...
     c.update(csrf(request))
     name = request.POST.get('name','')
     details = request.POST.get('detail','')
+    image = request.FILES.get('image', None)
     user = User.objects.get(id = request.user.id)
     if user is not None:
         cinema = user.username
         cin = Cinema.objects.filter(cinema_id = cinema)
         if int(cin.count())>0:
-            movie = Movie(cinema_id=cin[0],movie_name=name,movie_details=details,rating = 5)
+            movie = Movie(cinema_id=cin[0],movie_name=name,movie_image=image,movie_details=details,rating = 5)
             movie.save()
         else:
             HttpResponseRedirect('/CinemaAdmin/addNewMovie/')
     else:
         HttpResponseRedirect('/CinemaAdmin/addNewMovie/')
     return HttpResponseRedirect('/CinemaAdmin/home')
+
 
 @login_required(login_url = '/login/')
 
@@ -202,3 +206,15 @@ def add3(request): #view for adding show details in to the database...
     else:
         print('failed')
     return HttpResponseRedirect('/CinemaAdmin/home')
+
+
+@csrf_exempt
+@require_POST
+def delete_movie(request, movie_name):
+    try:
+        movie = Movie.objects.get(movie_name=movie_name)
+        movie.delete()
+        return HttpResponseRedirect('/CinemaAdmin/home/')
+    except Movie.DoesNotExist:
+        # Return error JSON response
+        return JsonResponse({'error': 'Movie does not exist.'}, status=404)

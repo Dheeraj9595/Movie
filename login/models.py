@@ -35,8 +35,8 @@ class Movie(models.Model):
 	movie_name=models.CharField(max_length=50)
 	movie_details=models.TextField()
 	rating=models.IntegerField()
-	movie_image = models.ImageField(upload_to='movie_images/', null=True, blank=True)
-	
+	movie_image = models.ImageField(upload_to='static/images/movie_images', null=True, blank=True)
+
 class Cinema(models.Model):
 	cinema_id=models.CharField(max_length=30,primary_key=True)
 	cinema_name=models.CharField(max_length=50)

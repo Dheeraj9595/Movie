@@ -36,35 +36,46 @@ def cinema(request): #view for changing the location...
 	c['test'] = city_ob
 	return render(request,'cinema.html',c)
 
-@login_required(login_url = '/login/')
+@login_required(login_url='/login/')
+def home(request):
+    c = {}
+    movies = {}
+    
+    cid = request.GET.get('cid', '')
 
-def home(request): #home page view for user...
-	c={}
-	movies = {}
-	cid = request.GET.get('cid','')
-	if 'cinema_id' in request.session:
-		cid=request.session['cinema_id']
-	if (cid!=''):
-		request.session['cinema_id'] = cid
-	else:
-		return HttpResponseRedirect('/home/location/')
-	cin_id = request.session['cinema_id']
-	mov = Movie.objects.filter(cinema_id = cin_id)
-	for	i in mov:
-		l = [i.movie_name,i.movie_details]
-		movies[i.movie_id] = l
-	c['movies'] = movies
-	offers = {}
-	off = Offers.objects.filter(cinema_id = cin_id)
-	for j in off:
-		if j.offer_name!="default":
-			offers[j.offer_name] = j.offer_details
-	c['offers'] = offers
-	c.update(csrf(request))
-	if request.user.is_authenticated:
-		return render(request,'home.html',c)
-	else:
-		return HttpResponseRedirect('/login/invalidlogin')
+    if 'cinema_id' in request.session:
+        cid = request.session['cinema_id']
+
+    if cid != '':
+        request.session['cinema_id'] = cid
+    else:
+        return HttpResponseRedirect('/home/location/')
+
+    cin_id = request.session['cinema_id']
+    mov = Movie.objects.filter(cinema_id=cin_id)
+
+    for movie in mov:
+        movie_data = [movie.movie_name, movie.movie_details, movie.movie_image]
+        movies[movie.movie_id] = movie_data
+
+    c['movies'] = movies
+
+    offers = {}
+    off = Offers.objects.filter(cinema_id=cin_id)
+
+    for offer in off:
+        if offer.offer_name != "default":
+            offers[offer.offer_name] = offer.offer_details
+
+    c['offers'] = offers
+    c.update(csrf(request))
+
+    if request.user.is_authenticated:
+        return render(request, 'home.html', c)
+    else:
+        return HttpResponseRedirect('/login/invalidlogin')
+
+
 
 @login_required(login_url = '/login/')
 

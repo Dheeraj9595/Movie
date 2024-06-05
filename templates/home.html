@@ -70,7 +70,13 @@ window.onload=function()
 			<div  class="col s11 m3">
 				<div class="card small">
 					<div class="card-image waves-effect waves-block waves-light">
-						<img class="activator" src={%static "images/cin_home/sample-1.jpg"%}>
+						{% if value.2 %}
+                        <!-- Display the movie image -->
+                        <img class="activator" src="{{ value.2.url }}">
+                    {% else %}
+                        <!-- Display default image -->
+                        <img class="activator" src="{% static 'images/cin_home/sample-1.jpg' %}">
+                    {% endif %}
 					</div>
 					<div class="card-content">
 						<span class="card-title activator grey-text text-darken-4">{{ value.0 }}<i class="material-icons right">more_vert</i></span>

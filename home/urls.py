@@ -11,4 +11,5 @@ urlpatterns = [
     path('editProfile/',views.editProfile),
     path('editPassword/',views.editPassword),
     path('movie/',views.movie),
+    path('save/', views.save_movies_as_json, name='save_movie')
     ]

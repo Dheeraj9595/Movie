@@ -1,0 +1,46 @@
+[
+    {
+        "model": "login.movie",
+        "pk": 8,
+        "fields": {
+            "cinema_id": "INOX",
+            "movie_name": "Savi",
+            "movie_details": "Savi is a 2024 Indian Hindi-language action thriller film directed by Abhinay Deo and produced by Mukesh Bhatt, Bhushan Kumar and Krishan Kumar under Vishesh Films and T-Series Films. The film stars Anil Kapoor, Divya Khossla and Harshvardhan Rane, and is a modern-day retelling of the tale of Savitri and Satyavan. ",
+            "rating": 5,
+            "movie_image": ""
+        }
+    },
+    {
+        "model": "login.movie",
+        "pk": 19,
+        "fields": {
+            "cinema_id": "INOX",
+            "movie_name": "Lagaan Movie",
+            "movie_details": "cricket movie",
+            "rating": 5,
+            "movie_image": "static/images/movie_images/maxresdefault_L9rsYg3.jpg"
+        }
+    },
+    {
+        "model": "login.movie",
+        "pk": 20,
+        "fields": {
+            "cinema_id": "INOX",
+            "movie_name": "Lucy",
+            "movie_details": "When Lucy unknowingly becomes part of a drug trade, sinister individuals insert medications in her body. They then give her unique abilities, which she uses to gain vengeance against her perpetrators.",
+            "rating": 5,
+            "movie_image": "static/images/movie_images/images.jpeg"
+        }
+    },
+    {
+        "model": "login.movie",
+        "pk": 21,
+        "fields": {
+            "cinema_id": "INOX",
+            "movie_name": "1983",
+            "movie_details": "cricket world cup movie",
+            "rating": 5,
+            "movie_image": "static/images/movie_images/download.jpeg"
+        }
+    }
+]

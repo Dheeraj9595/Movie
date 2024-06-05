@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 from login.models import *
 from django.contrib.auth import *
 from django.contrib.auth.models import User
+from django.core.serializers import serialize
+from django.http import JsonResponse
+
 @login_required(login_url = '/login/')
 def location(request): #view for getting users location...
     c = {}
@@ -183,3 +186,21 @@ def movie(request):
     c['movie_details'] = movie[0].movie_details
     c['default'] = "default"
     return render(request, 'movie.html', c)
+
+
+
+def save_movies_as_json(request):
+    # Query all movies from the Movie model
+    # breakpoint()
+    movies = Movie.objects.all()
+
+    # Serialize the queried movies into JSON format
+    serialized_movies = serialize('json', movies)
+
+    # Save the serialized JSON data to a file (optional)
+    with open('movies.json', 'w') as file:
+        file.write(serialized_movies)
+
+    # Return the serialized JSON data as a JsonResponse (optional)
+    return JsonResponse(serialized_movies, safe=False)
+
